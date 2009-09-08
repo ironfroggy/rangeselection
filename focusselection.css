@@ -22,8 +22,17 @@
     position: relative;
 }
 
+.legend_box {
+    position: absolute;
+    height: 10px;
+    width: 10px;
+    background: #ddd;
+    z-index: -50;
+}
+
 .highlight {
     background: yellow;
+    opacity: 0.5;
     position: absolute;
     width: 50px;
     height: 20px;

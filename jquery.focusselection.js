@@ -101,6 +101,41 @@
 	var last_width = element.find('.rangelabelend').width();
 	var others_width = (element.width() - last_width) / until;
 	element.find('.rangelabel').width(Math.floor(others_width));
+
+	addLegend(element);
+    };
+
+    function addLegend(element) {
+	addLegendBox(element, 10, 10, 10, '#ccc');
+	addLegendBox(element, 20, 10, 10, '#eee');
+
+	var mid_offset = element.width() * 0.25 - element.position().left + 30;
+	addLegendBox(element, mid_offset-20, 10, 15, '#ccc');
+	addLegendBox(element, mid_offset-5, 10, 5, '#eee');
+
+	var mid_offset = element.width() / 2 - element.position().left + 30;
+	addLegendBox(element, mid_offset-10, 10, 10, '#ccc');
+	addLegendBox(element, mid_offset-20, 10, 10, '#ccc');
+
+	var mid_offset = element.width() * 0.75 - element.position().left + 30;
+	addLegendBox(element, mid_offset-15, 10, 15, '#ccc');
+	addLegendBox(element, mid_offset-20, 10, 5, '#eee');
+
+
+	var end_offset = element.width() + element.position().left;
+	addLegendBox(element, end_offset-10, 10, 10, '#ccc');
+	addLegendBox(element, end_offset-20, 10, 10, '#eee');
+    };
+
+    function addLegendBox(element, x, y, width, color) {
+	addBox(element, x, element.position().top + element.height() - y, width, color);
+    };
+
+    function addBox(element, x, y, width, color) {
+	element.append('<div class="legend_box"></div>');
+	var boxes = element.find('.legend_box');
+	var box = boxes.slice(boxes.length-1, boxes.length);
+	box.css({position: "absolute", top: y, left: x, background: color, width: width});
     };
 
 })($)
