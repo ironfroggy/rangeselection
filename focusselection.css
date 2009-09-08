@@ -1,0 +1,31 @@
+#focusselection {
+    width: 300px;
+    height: 100px;
+    border: 1px solid black;
+}
+
+.rangelabel {
+    float: left;
+    z-index: 100;
+}
+
+.rangelabelend {
+    z-index: 100;
+}
+
+.rangestop {
+    position: relative;
+    float: right;
+}
+
+.rangestart {
+    position: relative;
+}
+
+.highlight {
+    background: yellow;
+    position: absolute;
+    width: 50px;
+    height: 20px;
+    z-index: -100;
+}
