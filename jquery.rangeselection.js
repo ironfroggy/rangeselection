@@ -24,7 +24,7 @@
 	callback: function (range) {}
     };
 
-    $.fn.focusselection = function(options) {
+    $.fn.rangeselection = function(options) {
 	var element = $(this);
 	if (element.length == 0) {
 	    return;
@@ -33,9 +33,17 @@
 	options = $.extend(defaults, options);
 	element.data('options', options);
 
+	if (options.width) {
+	    element.css('width', options.width);
+	}
+	if (options.height) {
+	    element.css('height', options.height);
+	}
+
 	addLabels(element, options.selectionrange);
 
 	var min_highlight_height = element.find('.rangelabel').height() + element.find('.rangestart').height();
+	element.find('.highlight').hide();
 
 	var select = function(event) {
 		if (element.data('clicked')) {
@@ -57,6 +65,7 @@
 
 		var highlight_width = Math.min(element.width(), (range.length==options.selectionrange.length ? element.width() : Math.max(30, (y / element.height()) * element.width())));
 		var highlight_left = event.clientX - highlight_width / 2;
+
 		if (highlight_left + highlight_width > element.width()) {
 		    highlight_width = element.width() - highlight_left + element.position().left;
 		}
@@ -64,7 +73,12 @@
 		    highlight_width = highlight_width + (highlight_left - element.position().left);
 		    highlight_left = element.position().left;
 		}
-		element.find('.highlight').css({ height: Math.max(min_highlight_height, y), left: highlight_left, width: highlight_width });
+		if (range.length == options.selectionrange.length) {
+		    highlight_height = element.height();
+		} else {
+		    highlight_height = Math.max(min_highlight_height, y);
+		}
+		element.find('.highlight').css({ height: highlight_height, left: highlight_left, width: highlight_width }).show();
 		var stop_label = safe_floor(range[range.length-1].toString());
 		var start_label = safe_ceil(range[0].toString());
 
@@ -76,6 +90,7 @@
 
 		if (start_label == stop_label) {
 		    element.find('.rangestop').hide();
+		    element.find('.rangestart .extra').hide();
 		} else {
 		    element.find('.rangestop').show();
 

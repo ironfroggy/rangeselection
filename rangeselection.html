@@ -1,15 +1,16 @@
 <html>
 
 <head>
-<title>Focus Selection Demo</title>
-<link rel="stylesheet" href="focusselection.css"></link>
+<title>Range Selection Demo</title>
+<link rel="stylesheet" href="rangeselection.css"></link>
 <script type="text/javascript" src="jquery_dev.js"></script>
-<script type="text/javascript" src="jquery.focusselection.js"></script>
+<script type="text/javascript" src="jquery.rangeselection.js"></script>
 <script type="text/javascript">
 <!--
 $(document).ready(function(){
-    $('#focusselection').focusselection(
+    $('#rangeselection').rangeselection(
     {
+    width: 600,
     selectionrange: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
     callback: function(range) { $('#range').html(range.toString()); },
     num_labels: 10
@@ -20,9 +21,9 @@ $(document).ready(function(){
 </head>
 
 <body>
-<h1>Focus Selection Demo</h1>
+<h1>Range Selection Demo</h1>
 
-<div id="focusselection">
+<div id="rangeselection">
   <div class="highlight">
     <span class="rangestart"><span class="value"></span><span class="extra"> ...</span></span>
     <span class="rangestop"><span class="extra">... </span><span class="value"></span></span>
