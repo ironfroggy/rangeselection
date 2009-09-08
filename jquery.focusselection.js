@@ -37,7 +37,10 @@
 
 	var min_highlight_height = element.find('.rangelabel').height() + element.find('.rangestart').height();
 
-	element.mousemove(function(event) {
+	var select = function(event) {
+		if (element.data('clicked')) {
+		    return;
+		}
 		var x = event.clientX - element.position().left;
 		var y = event.clientY - element.position().top;
 		var width = Math.ceil(options.selectionrange.length * (y / element.height()));
@@ -83,6 +86,19 @@
 		}
 
 		options.callback(range);
+	    }
+
+	element.mousemove(select);
+
+	element.click(function(event){
+		element.data('clicked', !element.data('clicked'));
+		if (!element.data('clicked')) {
+		    select(event);
+		}
+	    });
+
+	element.mouseout(function(event){
+		element.data('clicked', false);
 	    });
     };
 
