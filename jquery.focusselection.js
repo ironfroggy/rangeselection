@@ -35,7 +35,7 @@
 
 	addLabels(element, options.selectionrange);
 
-	element.find('.highlight')
+	var min_highlight_height = element.find('.rangelabel').height() + element.find('.rangestart').height();
 
 	element.mousemove(function(event) {
 		var x = event.clientX - element.position().left;
@@ -52,7 +52,7 @@
 		}
 		var range = options.selectionrange.slice(range_start, range_stop);
 
-		var highlight_width = Math.min(element.width(), Math.max(30, (y / element.height()) * element.width()));
+		var highlight_width = Math.min(element.width(), (range.length==options.selectionrange.length ? element.width() : Math.max(30, (y / element.height()) * element.width())));
 		var highlight_left = event.clientX - highlight_width / 2;
 		if (highlight_left + highlight_width > element.width()) {
 		    highlight_width = element.width() - highlight_left + element.position().left;
@@ -61,12 +61,26 @@
 		    highlight_width = highlight_width + (highlight_left - element.position().left);
 		    highlight_left = element.position().left;
 		}
-		element.find('.highlight').css({ height: Math.max(20, y), left: highlight_left, width: highlight_width });
+		element.find('.highlight').css({ height: Math.max(min_highlight_height, y), left: highlight_left, width: highlight_width });
+		var stop_label = safe_floor(range[range.length-1].toString());
+		var start_label = safe_ceil(range[0].toString());
 
-		element.find('.rangestart span').html(safe_ceil(range[0].toString()));
-		element.find('.rangestart').css({ left: element.position().left, top: y-30 });
-		element.find('.rangestop span').html(safe_floor(range[range.length-1].toString()));
-		element.find('.rangestop').css({ top: y-30 });
+		element.find('.rangestart .value').html(start_label);
+		element.find('.rangestop').css({ top: (y > 50 ? y-30 : 20) });
+
+		element.find('.rangestart').css({ left: element.position().left, top: (y > 50 ? y-30 : 20)});
+		element.find('.rangestop .value').html(stop_label);
+
+		if (start_label == stop_label) {
+		    element.find('.rangestop').hide();
+		} else {
+		    element.find('.rangestop').show();
+
+		    element.find('.extra').show();
+		    if (element.find('.rangestart').position().top != element.find('.rangestop').position().top) {
+			element.find('.extra').hide();
+		    }
+		}
 
 		options.callback(range);
 	    });
