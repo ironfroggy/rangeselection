@@ -1,5 +1,23 @@
 (function($){
 
+    function safe_ceil(i) {
+	var n = Math.ceil(i);
+	if (n.toString() == 'NaN') {
+	    return i;
+	} else {
+	    return n;
+	}
+    };
+
+    function safe_floor(i) {
+	var n = Math.floor(i);
+	if (n.toString() == 'NaN') {
+	    return i;
+	} else {
+	    return n;
+	}
+    };
+
     var defaults = {
 	selectionrange: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 	num_labels: 5,
@@ -45,9 +63,9 @@
 		}
 		element.find('.highlight').css({ height: Math.max(20, y), left: highlight_left, width: highlight_width });
 
-		element.find('.rangestart span').html(Math.ceil(range[0].toString()));
+		element.find('.rangestart span').html(safe_ceil(range[0].toString()));
 		element.find('.rangestart').css({ left: element.position().left, top: y-30 });
-		element.find('.rangestop span').html(Math.floor(range[range.length-1].toString()));
+		element.find('.rangestop span').html(safe_floor(range[range.length-1].toString()));
 		element.find('.rangestop').css({ top: y-30 });
 
 		options.callback(range);
