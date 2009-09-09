@@ -111,10 +111,6 @@
 		    select(event);
 		}
 	    });
-
-	element.mouseout(function(event){
-		element.data('clicked', false);
-	    });
     };
 
     function addLabels(element, range) {
