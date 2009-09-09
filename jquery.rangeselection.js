@@ -78,7 +78,6 @@
 		} else {
 		    highlight_height = Math.max(min_highlight_height, y);
 		}
-		console.log("setting highlight", highlight_height, highlight_left, highlight_width);
 		element.find('.highlight').css({ height: highlight_height, left: highlight_left, width: highlight_width }).show();
 		var stop_label = safe_floor(range[range.length-1].toString());
 		var start_label = safe_ceil(range[0].toString());
