@@ -7,15 +7,22 @@
 <script type="text/javascript" src="jquery.rangeselection.js"></script>
 <script type="text/javascript">
 <!--
-$(document).ready(function(){
+function on_selection(range) {
+        $('#range').html(range.toString());
+};
+
+function init() {
     $('#rangeselection').rangeselection(
     {
     width: 400,
+    height: 100,
     selectionrange: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-    callback: function(range) { $('#range').html(range.toString()); },
+    callback: on_selection,
     num_labels: 10
     });
-});
+};
+
+$(document).ready(init);
 -->
 </script>
 </head>
