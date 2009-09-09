@@ -45,47 +45,62 @@
 	var min_highlight_height = element.find('.rangelabel').height() + element.find('.rangestart').height();
 	element.find('.highlight').hide();
 
+	var element_width = element.width();
+	var element_height = element.height();
+	var element_left = element.position().left;
+	var element_top = element.position().top;
+
 	var select = function(event) {
 		if (element.data('clicked')) {
 		    return;
 		}
-		var x = event.clientX - element.position().left;
-		var y = event.clientY - element.position().top;
-		var width = Math.ceil(options.selectionrange.length * (y / element.height()));
-		var center_i = Math.ceil(options.selectionrange.length * (x / element.width()));
+		var x = event.clientX - element_left;
+		var y = event.clientY - element_top;
+		var width = Math.ceil(options.selectionrange.length * (y / element_height));
+		var center_i = Math.ceil(options.selectionrange.length * (x / element_width));
+
+		var selectionrange = options.selectionrange;
 
 		var range_start = Math.max(0, center_i - width / 2);
 		var range_stop;
+		var range;
 		if (element.find('.rangelabel').height() > y) {
 		    range_stop = range_start + 1;
 		} else {
-		    range_stop = Math.min(options.selectionrange.length, center_i + width / 2);
+		    range_stop = Math.min(selectionrange.length, center_i + width / 2);
 		}
-		var range = options.selectionrange.slice(range_start, range_stop);
+		range = selectionrange.slice(range_start, range_stop);
 
-		var highlight_width = Math.min(element.width(), (range.length==options.selectionrange.length ? element.width() : Math.max(30, (y / element.height()) * element.width())));
+		var highlight_width = Math.min(element_width, (range.length==selectionrange.length ? element_width : Math.max(30, (y / element_height) * element_width)));
 		var highlight_left = event.clientX - highlight_width / 2;
 
-		if (highlight_left + highlight_width > element.width()) {
-		    highlight_width = element.width() - highlight_left + element.position().left;
+		if (highlight_left + highlight_width > element_width) {
+		    highlight_width = element_width - highlight_left + element_left;
 		}
-		if (highlight_left < element.position().left) {
-		    highlight_width = highlight_width + (highlight_left - element.position().left);
-		    highlight_left = element.position().left;
+		if (highlight_left < element_left) {
+		    highlight_width = highlight_width + (highlight_left - element_left);
+		    highlight_left = element_left;
 		}
-		if (range.length == options.selectionrange.length) {
-		    highlight_height = element.height();
+		if (range.length == selectionrange.length) {
+		    highlight_height = element_height;
 		} else {
 		    highlight_height = Math.max(min_highlight_height, y);
 		}
 		element.find('.highlight').css({ height: highlight_height, left: highlight_left, width: highlight_width }).show();
-		var stop_label = safe_floor(range[range.length-1].toString());
-		var start_label = safe_ceil(range[0].toString());
+		var stop_label;
+		var start_label;
+		if (range.length == 0) {
+		    stop_label = '???';
+		    start_label = '???';
+		} else {
+		    stop_label = safe_floor(range[range.length-1].toString());
+		    start_label = safe_ceil(range[0].toString());
+		}
 
 		element.find('.rangestart .value').html(start_label);
 		element.find('.rangestop').css({ top: (y > 50 ? y-30 : 20) });
 
-		element.find('.rangestart').css({ left: element.position().left, top: (y > 50 ? y-30 : 20)});
+		element.find('.rangestart').css({ left: element_left, top: (y > 50 ? y-30 : 20)});
 		element.find('.rangestop .value').html(stop_label);
 
 		if (start_label == stop_label) {
